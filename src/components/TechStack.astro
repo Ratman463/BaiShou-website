@@ -1,0 +1,86 @@
+---
+/**
+ * 技术架构区域 —— 以表格形式展示技术栈
+ */
+interface TechRow {
+  layer: string;
+  tech: string;
+}
+
+const rows: TechRow[] = [
+  { layer: '前端', tech: 'Flutter (Dart) → TypeScript 生态重构中' },
+  { layer: '状态管理', tech: 'Riverpod' },
+  { layer: '本地数据库', tech: 'SQLite (Drift) + sqlite-vec 向量引擎' },
+  { layer: 'AI 集成', tech: 'HTTP REST API (Gemini / OpenAI / Anthropic)' },
+  { layer: '文件存储', tech: 'Markdown + YAML Front Matter' },
+];
+---
+
+<section id="tech-stack" class="section">
+  <div class="container max-w-3xl">
+    <div class="reveal">
+      <p class="mb-3 text-sm font-medium tracking-wide text-[#9AD4EA]">
+        Tech Stack
+      </p>
+      <h2 class="text-3xl font-bold text-white sm:text-4xl">技术架构</h2>
+      <p class="mt-4 text-[16px] leading-[1.8] text-[#a0a8b8]">
+        在本地优先的前提下，选择成熟、可长期维护的技术组合。
+      </p>
+    </div>
+
+    <div class="reveal card mt-10 overflow-hidden">
+      <table class="w-full border-collapse text-left">
+        <thead>
+          <tr class="border-b border-[rgba(154,212,234,0.18)]">
+            <th
+              scope="col"
+              class="px-6 py-4 text-sm font-semibold tracking-wide text-[#9AD4EA]"
+            >
+              层级
+            </th>
+            <th
+              scope="col"
+              class="px-6 py-4 text-sm font-semibold tracking-wide text-[#9AD4EA]"
+            >
+              技术
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map((row, idx) => (
+            <tr
+              class={
+                'transition-colors duration-200 hover:bg-[rgba(154,212,234,0.06)] ' +
+                (idx < rows.length - 1
+                  ? 'border-b border-[rgba(154,212,234,0.10)]'
+                  : '')
+              }
+            >
+              <th
+                scope="row"
+                class="px-6 py-4 text-[15px] font-medium text-white align-top"
+              >
+                {row.layer}
+              </th>
+              <td class="px-6 py-4 text-[15px] leading-relaxed text-[#c8cedb]">
+                {row.tech}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+
+    <p class="reveal mt-5 text-sm text-[#6b7488]">
+      开源协议：AGPLv3 ·
+      <a
+        href="https://github.com/Anson-Trio/BaiShou-Next"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="text-[#9AD4EA] underline-offset-4 hover:underline"
+      >
+        在 GitHub 查看源码 →
+      </a>
+    </p>
+  </div>
+</section>

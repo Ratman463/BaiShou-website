@@ -1,0 +1,83 @@
+---
+/**
+ * BaiShou-Next 产品官网布局
+ * 包含全局星空背景遮罩、字体、meta、IntersectionObserver 淡入逻辑
+ */
+import '../styles/global.css';
+
+export interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = '白守 · BaiShou-Next',
+  description = '以纯白誓约，守护彼此一生。BaiShou-Next 是为对抗遗忘而构建的灵魂容器——一个拥有 AI 伙伴、RAG 语义记忆与本地私有数据的智能日记应用。',
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#0a0f1e" />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="/Latte/assets/images/Latte-Banner-01.png" />
+    <meta property="og:locale" content="zh_CN" />
+
+    <!-- Noto Sans SC 字体 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap"
+    />
+  </head>
+  <body>
+    <!-- 背景图在 body 上设置，这里叠加半透明深色遮罩 -->
+    <div class="bg-overlay" aria-hidden="true"></div>
+
+    <slot />
+
+    <!-- 进入视口淡入动画：监听所有 .reveal 元素，不使用 stagger 瀑布流 -->
+    <script>
+      const initReveal = () => {
+        const els = document.querySelectorAll<HTMLElement>('.reveal');
+        if (els.length === 0) return;
+
+        // 不支持 IO 时直接显示
+        if (!('IntersectionObserver' in window)) {
+          els.forEach((el) => el.classList.add('is-visible'));
+          return;
+        }
+
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+                observer.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.12, rootMargin: '0px 0px -40px 0px' }
+        );
+
+        els.forEach((el) => observer.observe(el));
+      };
+
+      // Astro 视图过渡 / 首次加载
+      document.addEventListener('DOMContentLoaded', initReveal);
+    </script>
+  </body>
+</html>

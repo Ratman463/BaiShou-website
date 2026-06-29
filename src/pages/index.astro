@@ -1,0 +1,24 @@
+---
+/**
+ * BaiShou-Next 产品官网首页
+ */
+import Layout from '../layouts/Layout.astro';
+import Hero from '../components/Hero.astro';
+import About from '../components/About.astro';
+import Features from '../components/Features.astro';
+import TechStack from '../components/TechStack.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Layout
+  title="白守 · BaiShou-Next"
+  description="以纯白誓约，守护彼此一生。BaiShou-Next 是为对抗遗忘而构建的灵魂容器——一个拥有 AI 伙伴、RAG 语义记忆与本地私有数据的智能日记应用。"
+>
+  <main>
+    <Hero />
+    <About />
+    <Features />
+    <TechStack />
+  </main>
+  <Footer />
+</Layout>

@@ -1,0 +1,57 @@
+---
+/**
+ * Footer —— 版权、协议、GitHub 链接，简洁星空底栏
+ */
+const REPO_URL = 'https://github.com/Anson-Trio/BaiShou-Next';
+const year = new Date().getFullYear();
+---
+
+<footer class="relative mt-10 border-t border-[rgba(154,212,234,0.15)]">
+  <div class="container py-12">
+    <div class="flex flex-col items-center gap-5 text-center">
+      <a
+        href={REPO_URL}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="text-base font-semibold text-white transition-colors hover:text-[#9AD4EA]"
+      >
+        BaiShou-Next
+      </a>
+
+      <p class="max-w-md text-sm leading-relaxed text-[#a0a8b8]">
+        以纯白誓约，守护彼此一生。
+      </p>
+
+      <nav class="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm">
+        <a
+          href={REPO_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-[#a0a8b8] transition-colors hover:text-[#9AD4EA]"
+        >
+          GitHub
+        </a>
+        <a
+          href="https://github.com/Anson-Trio/BaiShou-Next/blob/main/LICENSE"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-[#a0a8b8] transition-colors hover:text-[#9AD4EA]"
+        >
+          AGPLv3
+        </a>
+        <a
+          href="#hero"
+          class="text-[#a0a8b8] transition-colors hover:text-[#9AD4EA]"
+        >
+          回到顶部 ↑
+        </a>
+      </nav>
+
+      <div class="mt-2 h-px w-24 bg-[rgba(154,212,234,0.2)]"></div>
+
+      <p class="text-[13px] text-[#6b7488]">
+        © 2024-{year} Anson-Trio. Released under AGPLv3.
+      </p>
+    </div>
+  </div>
+</footer>

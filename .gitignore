@@ -1,0 +1,29 @@
+# build output
+dist/
+
+# dependencies
+node_modules/
+
+# Astro
+.astro/
+
+# environment / secrets
+.env
+.env.production
+.env.development
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# macOS
+.DS_Store
+
+# editor
+.vscode/
+.idea/
+
+# Kilo session data
+.kilo/

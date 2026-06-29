@@ -1,0 +1,298 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ========================================
+   BaiShou-Next — 温暖星空博客风格
+   以纯白誓约，守护彼此一生。
+   参考 LingBlog 的安静沉浸感，避免 AI 生成风格。
+   ======================================== */
+
+/* ---------- Design Tokens ---------- */
+:root {
+  /* Void & Surface — 深蓝灰主调，避免大面积纯黑 */
+  --void:          #0a0f1e;
+  --void-light:    #101728;
+  --void-lighter:  #1a2138;
+
+  /* 白守专属浅蓝点缀色 */
+  --accent:        #9AD4EA;
+  --accent-deep:   #6fb4d0;
+  --accent-soft:   rgba(154, 212, 234, 0.15);
+  --accent-border: rgba(154, 212, 234, 0.15);
+  --accent-border-hover: rgba(154, 212, 234, 0.32);
+
+  /* Surface — 实色半透明，轻微模糊（非玻璃态） */
+  --surface-bg:       rgba(20, 28, 48, 0.6);
+  --surface-bg-hover: rgba(26, 36, 60, 0.72);
+
+  /* Text */
+  --text-primary:   #e8eaed;
+  --text-secondary: #a0a8b8;
+  --text-muted:     #6b7488;
+  --text-heading:   #ffffff;
+
+  /* Radius */
+  --radius-sm: 10px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+
+  /* Font */
+  --font-sans: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-display: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+
+  /* Transition */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --duration-fast: 150ms;
+  --duration-normal: 250ms;
+  --duration-slow: 600ms;
+
+  /* Layout */
+  --max-width: 1040px;
+  --nav-height: 64px;
+}
+
+/* ---------- Reset ---------- */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.78;
+  color: var(--text-primary);
+  background-color: var(--void);
+  min-height: 100vh;
+  overflow-x: hidden;
+  /* 银河/星空全页固定背景 —— 视差感 */
+  background-image: url('/galaxy-bg.jpg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+}
+
+/* ---------- Background overlay ---------- */
+/* 在背景图上叠加半透明深色遮罩，保证文字可读性 */
+.bg-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-color: rgba(10, 15, 30, 0.75);
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+  transition: color var(--duration-fast) var(--ease-out);
+}
+
+a:hover {
+  color: #bfe6f5;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+/* ---------- Scrollbar ---------- */
+::-webkit-scrollbar { width: 7px; height: 7px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: rgba(154, 212, 234, 0.18);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(154, 212, 234, 0.32);
+}
+
+::selection {
+  background: rgba(154, 212, 234, 0.28);
+  color: #fff;
+}
+
+/* ---------- Keyframes ---------- */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.35; }
+  50%      { opacity: 0.9; }
+}
+
+/* ---------- Reveal on scroll ---------- */
+/* 配合 IntersectionObserver：默认隐藏，进入视口后添加 .is-visible */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity var(--duration-slow) var(--ease-out),
+              transform var(--duration-slow) var(--ease-out);
+  will-change: opacity, transform;
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Hero 首屏内容入场（无需 IO，直接播放） */
+.animate-in {
+  animation: fadeInUp 0.6s var(--ease-out) both;
+}
+
+.animate-in-delay-1 { animation-delay: 0.08s; }
+.animate-in-delay-2 { animation-delay: 0.16s; }
+.animate-in-delay-3 { animation-delay: 0.24s; }
+.animate-in-delay-4 { animation-delay: 0.32s; }
+
+/* ---------- Headings ---------- */
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  color: var(--text-heading);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.3;
+}
+
+/* ---------- Surface card ---------- */
+/* 实色半透明 + 轻微模糊，明确不是玻璃态 */
+.card {
+  background: var(--surface-bg);
+  border: 1px solid var(--accent-border);
+  border-radius: var(--radius-lg);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: background var(--duration-normal) var(--ease-out),
+              border-color var(--duration-normal) var(--ease-out);
+}
+
+.card:hover {
+  background: var(--surface-bg-hover);
+  border-color: var(--accent-border-hover);
+}
+
+/* ---------- Buttons ---------- */
+/* 实色背景，不使用渐变 */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 44px;
+  padding: 0 24px;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  border-radius: 9999px;
+  cursor: pointer;
+  font-family: var(--font-sans);
+  line-height: 1;
+  transition: background var(--duration-normal) var(--ease-out),
+              border-color var(--duration-normal) var(--ease-out),
+              color var(--duration-normal) var(--ease-out);
+}
+
+/* 主按钮：浅蓝实色 + 深色文字 */
+.btn-primary {
+  background: var(--accent);
+  color: #0a1620;
+  border: 1px solid var(--accent);
+}
+.btn-primary:hover {
+  background: #b3e2f2;
+  color: #0a1620;
+}
+
+/* 次按钮：透明 + 亮色边框 */
+.btn-outline {
+  background: transparent;
+  color: var(--accent);
+  border: 1px solid var(--accent-deep);
+}
+.btn-outline:hover {
+  background: rgba(154, 212, 234, 0.08);
+  color: #bfe6f5;
+  border-color: var(--accent);
+}
+
+/* ---------- Section divider ---------- */
+.divider {
+  width: 100%;
+  height: 1px;
+  background: var(--accent-border);
+  margin: 0;
+}
+
+/* ---------- Latte banner ---------- */
+.latte-banner {
+  border-radius: var(--radius-lg);
+  box-shadow: 0 0 40px rgba(154, 212, 234, 0.15);
+  border: 1px solid var(--accent-border);
+}
+
+/* ---------- Lucide icon sizing ---------- */
+.lucide {
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.125em;
+}
+
+/* ---------- Decorative twinkling stars ---------- */
+.star {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  border-radius: 50%;
+  background: #ffffff;
+  animation: twinkle 4s ease-in-out infinite;
+  pointer-events: none;
+}
+
+/* ---------- Section spacing ---------- */
+.section {
+  padding-top: 96px;
+  padding-bottom: 96px;
+}
+@media (max-width: 768px) {
+  .section { padding-top: 64px; padding-bottom: 64px; }
+}
+
+/* ---------- Container ---------- */
+.container {
+  width: 100%;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 24px;
+}
+@media (max-width: 768px) {
+  .container { padding: 0 20px; }
+}
+
+/* ---------- Reduce motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .reveal { opacity: 1; transform: none; }
+}
