@@ -3,56 +3,97 @@
 @tailwind utilities;
 
 /* ========================================
-   BaiShou-Next — 温暖星空博客风格
-   以纯白誓约，守护彼此一生。
-   参考 LingBlog 的安静沉浸感，避免 AI 生成风格。
+   BaiShou-Next — 浅色 / 深色双主题
    ======================================== */
 
-/* ---------- Design Tokens ---------- */
-:root {
-  /* Void & Surface — 深蓝灰主调，避免大面积纯黑 */
-  --void:          #0a0f1e;
-  --void-light:    #101728;
-  --void-lighter:  #1a2138;
+/* ---------- Dark theme (default) ---------- */
+:root,
+[data-theme='dark'] {
+  --void: #0a0f1e;
+  --void-light: #101728;
+  --void-lighter: #1a2138;
 
-  /* 白守专属浅蓝点缀色 */
-  --accent:        #9AD4EA;
-  --accent-deep:   #6fb4d0;
-  --accent-soft:   rgba(154, 212, 234, 0.15);
+  --accent: #9ad4ea;
+  --accent-deep: #6fb4d0;
+  --accent-soft: rgba(154, 212, 234, 0.15);
   --accent-border: rgba(154, 212, 234, 0.15);
   --accent-border-hover: rgba(154, 212, 234, 0.32);
 
-  /* Surface — 实色半透明，轻微模糊（非玻璃态） */
-  --surface-bg:       rgba(20, 28, 48, 0.6);
+  --surface-bg: rgba(20, 28, 48, 0.6);
   --surface-bg-hover: rgba(26, 36, 60, 0.72);
 
-  /* Text */
-  --text-primary:   #e8eaed;
+  --text-primary: #e8eaed;
   --text-secondary: #a0a8b8;
-  --text-muted:     #6b7488;
-  --text-heading:   #ffffff;
+  --text-muted: #6b7488;
+  --text-heading: #ffffff;
 
-  /* Radius */
+  --header-bg: rgba(10, 15, 30, 0.82);
+  --hero-glow: rgba(154, 212, 234, 0.18);
+  --overlay: rgba(10, 15, 30, 0.75);
+  --btn-primary-text: #0a1620;
+  --btn-primary-hover: #b3e2f2;
+  --btn-outline-hover-bg: rgba(154, 212, 234, 0.08);
+  --btn-outline-hover-text: #bfe6f5;
+  --link-hover: #bfe6f5;
+  --selection-bg: rgba(154, 212, 234, 0.28);
+  --selection-text: #fff;
+  --scrollbar-thumb: rgba(154, 212, 234, 0.18);
+  --scrollbar-thumb-hover: rgba(154, 212, 234, 0.32);
+  --icon-frame-bg: rgba(20, 28, 48, 0.55);
+  --icon-shadow: 0 24px 64px rgba(0, 0, 0, 0.45), 0 0 48px rgba(154, 212, 234, 0.12);
+}
+
+/* ---------- Light theme ---------- */
+[data-theme='light'] {
+  --void: #f4f7fb;
+  --void-light: #ffffff;
+  --void-lighter: #e8eef5;
+
+  --accent: #2d8eb0;
+  --accent-deep: #1f6f8f;
+  --accent-soft: rgba(45, 142, 176, 0.12);
+  --accent-border: rgba(45, 142, 176, 0.18);
+  --accent-border-hover: rgba(45, 142, 176, 0.34);
+
+  --surface-bg: rgba(255, 255, 255, 0.88);
+  --surface-bg-hover: rgba(255, 255, 255, 0.96);
+
+  --text-primary: #1a2332;
+  --text-secondary: #5a6578;
+  --text-muted: #8b95a5;
+  --text-heading: #0d1520;
+
+  --header-bg: rgba(244, 247, 251, 0.88);
+  --hero-glow: rgba(45, 142, 176, 0.14);
+  --overlay: linear-gradient(180deg, rgba(154, 212, 234, 0.1) 0%, rgba(244, 247, 251, 0) 42%);
+  --btn-primary-text: #ffffff;
+  --btn-primary-hover: #3aa0c4;
+  --btn-outline-hover-bg: rgba(45, 142, 176, 0.08);
+  --btn-outline-hover-text: #1f6f8f;
+  --link-hover: #1f6f8f;
+  --selection-bg: rgba(45, 142, 176, 0.22);
+  --selection-text: #0d1520;
+  --scrollbar-thumb: rgba(45, 142, 176, 0.22);
+  --scrollbar-thumb-hover: rgba(45, 142, 176, 0.36);
+  --icon-frame-bg: rgba(255, 255, 255, 0.9);
+  --icon-shadow: 0 20px 48px rgba(45, 142, 176, 0.16), 0 8px 24px rgba(26, 35, 50, 0.08);
+}
+
+:root {
   --radius-sm: 10px;
   --radius-md: 12px;
   --radius-lg: 16px;
-
-  /* Font */
-  --font-sans: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  --font-display: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-
-  /* Transition */
+  --font-sans: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    'Helvetica Neue', Arial, sans-serif;
+  --font-display: var(--font-sans);
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --duration-fast: 150ms;
   --duration-normal: 250ms;
   --duration-slow: 600ms;
-
-  /* Layout */
-  --max-width: 1040px;
+  --max-width: 1080px;
   --nav-height: 64px;
 }
 
-/* ---------- Reset ---------- */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -73,7 +114,11 @@ body {
   background-color: var(--void);
   min-height: 100vh;
   overflow-x: hidden;
-  /* 银河/星空全页固定背景 —— 视差感 */
+  transition: background-color var(--duration-normal) var(--ease-out),
+    color var(--duration-normal) var(--ease-out);
+}
+
+[data-theme='dark'] body {
   background-image: url('/galaxy-bg.jpg');
   background-size: cover;
   background-position: center;
@@ -81,14 +126,17 @@ body {
   background-repeat: no-repeat;
 }
 
-/* ---------- Background overlay ---------- */
-/* 在背景图上叠加半透明深色遮罩，保证文字可读性 */
+[data-theme='light'] body {
+  background-image: none;
+}
+
 .bg-overlay {
   position: fixed;
   inset: 0;
   z-index: -1;
   pointer-events: none;
-  background-color: rgba(10, 15, 30, 0.75);
+  background: var(--overlay);
+  transition: background var(--duration-normal) var(--ease-out);
 }
 
 a {
@@ -98,7 +146,7 @@ a {
 }
 
 a:hover {
-  color: #bfe6f5;
+  color: var(--link-hover);
 }
 
 img {
@@ -106,45 +154,31 @@ img {
   display: block;
 }
 
-/* ---------- Scrollbar ---------- */
 ::-webkit-scrollbar { width: 7px; height: 7px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb {
-  background: rgba(154, 212, 234, 0.18);
+  background: var(--scrollbar-thumb);
   border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(154, 212, 234, 0.32);
+  background: var(--scrollbar-thumb-hover);
 }
 
 ::selection {
-  background: rgba(154, 212, 234, 0.28);
-  color: #fff;
+  background: var(--selection-bg);
+  color: var(--selection-text);
 }
 
-/* ---------- Keyframes ---------- */
 @keyframes fadeInUp {
   from { opacity: 0; transform: translateY(24px); }
-  to   { opacity: 1; transform: translateY(0); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to   { opacity: 1; }
-}
-
-@keyframes twinkle {
-  0%, 100% { opacity: 0.35; }
-  50%      { opacity: 0.9; }
-}
-
-/* ---------- Reveal on scroll ---------- */
-/* 配合 IntersectionObserver：默认隐藏，进入视口后添加 .is-visible */
 .reveal {
   opacity: 0;
   transform: translateY(24px);
   transition: opacity var(--duration-slow) var(--ease-out),
-              transform var(--duration-slow) var(--ease-out);
+    transform var(--duration-slow) var(--ease-out);
   will-change: opacity, transform;
 }
 
@@ -153,7 +187,6 @@ img {
   transform: translateY(0);
 }
 
-/* Hero 首屏内容入场（无需 IO，直接播放） */
 .animate-in {
   animation: fadeInUp 0.6s var(--ease-out) both;
 }
@@ -163,7 +196,6 @@ img {
 .animate-in-delay-3 { animation-delay: 0.24s; }
 .animate-in-delay-4 { animation-delay: 0.32s; }
 
-/* ---------- Headings ---------- */
 h1, h2, h3, h4 {
   font-family: var(--font-display);
   color: var(--text-heading);
@@ -172,8 +204,6 @@ h1, h2, h3, h4 {
   line-height: 1.3;
 }
 
-/* ---------- Surface card ---------- */
-/* 实色半透明 + 轻微模糊，明确不是玻璃态 */
 .card {
   background: var(--surface-bg);
   border: 1px solid var(--accent-border);
@@ -181,7 +211,8 @@ h1, h2, h3, h4 {
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   transition: background var(--duration-normal) var(--ease-out),
-              border-color var(--duration-normal) var(--ease-out);
+    border-color var(--duration-normal) var(--ease-out),
+    box-shadow var(--duration-normal) var(--ease-out);
 }
 
 .card:hover {
@@ -189,8 +220,6 @@ h1, h2, h3, h4 {
   border-color: var(--accent-border-hover);
 }
 
-/* ---------- Buttons ---------- */
-/* 实色背景，不使用渐变 */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -206,87 +235,303 @@ h1, h2, h3, h4 {
   font-family: var(--font-sans);
   line-height: 1;
   transition: background var(--duration-normal) var(--ease-out),
-              border-color var(--duration-normal) var(--ease-out),
-              color var(--duration-normal) var(--ease-out);
+    border-color var(--duration-normal) var(--ease-out),
+    color var(--duration-normal) var(--ease-out);
 }
 
-/* 主按钮：浅蓝实色 + 深色文字 */
 .btn-primary {
   background: var(--accent);
-  color: #0a1620;
+  color: var(--btn-primary-text);
   border: 1px solid var(--accent);
 }
+
 .btn-primary:hover {
-  background: #b3e2f2;
-  color: #0a1620;
+  background: var(--btn-primary-hover);
+  color: var(--btn-primary-text);
 }
 
-/* 次按钮：透明 + 亮色边框 */
 .btn-outline {
   background: transparent;
   color: var(--accent);
   border: 1px solid var(--accent-deep);
 }
+
 .btn-outline:hover {
-  background: rgba(154, 212, 234, 0.08);
-  color: #bfe6f5;
+  background: var(--btn-outline-hover-bg);
+  color: var(--btn-outline-hover-text);
   border-color: var(--accent);
 }
 
-/* ---------- Section divider ---------- */
-.divider {
-  width: 100%;
-  height: 1px;
-  background: var(--accent-border);
-  margin: 0;
-}
-
-/* ---------- Latte banner ---------- */
-.latte-banner {
-  border-radius: var(--radius-lg);
-  box-shadow: 0 0 40px rgba(154, 212, 234, 0.15);
-  border: 1px solid var(--accent-border);
-}
-
-/* ---------- Lucide icon sizing ---------- */
-.lucide {
-  width: 1em;
-  height: 1em;
-  vertical-align: -0.125em;
-}
-
-/* ---------- Decorative twinkling stars ---------- */
-.star {
-  position: absolute;
-  width: 2px;
-  height: 2px;
-  border-radius: 50%;
-  background: #ffffff;
-  animation: twinkle 4s ease-in-out infinite;
-  pointer-events: none;
-}
-
-/* ---------- Section spacing ---------- */
 .section {
   padding-top: 96px;
   padding-bottom: 96px;
 }
+
 @media (max-width: 768px) {
-  .section { padding-top: 64px; padding-bottom: 64px; }
+  .section {
+    padding-top: 64px;
+    padding-bottom: 64px;
+  }
 }
 
-/* ---------- Container ---------- */
 .container {
   width: 100%;
   max-width: var(--max-width);
   margin: 0 auto;
   padding: 0 24px;
 }
+
 @media (max-width: 768px) {
-  .container { padding: 0 20px; }
+  .container {
+    padding: 0 20px;
+  }
 }
 
-/* ---------- Reduce motion ---------- */
+.section-eyebrow {
+  margin-bottom: 12px;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.section-heading h2 {
+  font-size: clamp(1.75rem, 4vw, 2.25rem);
+}
+
+.section-lead {
+  margin-top: 16px;
+  max-width: 36rem;
+  font-size: 16px;
+  line-height: 1.8;
+  color: var(--text-secondary);
+}
+
+/* ---------- Header ---------- */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  height: var(--nav-height);
+  border-bottom: 1px solid var(--accent-border);
+  background: var(--header-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+  gap: 16px;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text-heading);
+}
+
+.brand:hover {
+  color: var(--accent);
+}
+
+.brand-icon {
+  border-radius: 10px;
+  box-shadow: 0 4px 12px var(--hero-glow);
+}
+
+.header-nav {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin-left: auto;
+  margin-right: 12px;
+}
+
+.header-nav a {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.header-nav a:hover {
+  color: var(--accent);
+}
+
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 9999px;
+  border: 1px solid var(--accent-border);
+  background: var(--surface-bg);
+  color: var(--accent);
+  cursor: pointer;
+  transition: background var(--duration-normal) var(--ease-out),
+    border-color var(--duration-normal) var(--ease-out);
+}
+
+.theme-toggle:hover {
+  background: var(--surface-bg-hover);
+  border-color: var(--accent-border-hover);
+}
+
+[data-theme='dark'] .icon-sun { display: block; }
+[data-theme='dark'] .icon-moon { display: none; }
+[data-theme='light'] .icon-sun { display: none; }
+[data-theme='light'] .icon-moon { display: block; }
+
+@media (max-width: 640px) {
+  .header-nav {
+    display: none;
+  }
+}
+
+/* ---------- Hero ---------- */
+.hero {
+  min-height: calc(100vh - var(--nav-height));
+  display: flex;
+  align-items: center;
+  padding-top: 48px;
+  padding-bottom: 48px;
+}
+
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 48px;
+  align-items: center;
+}
+
+@media (min-width: 900px) {
+  .hero-grid {
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 64px;
+  }
+}
+
+.hero-eyebrow {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.hero-title {
+  margin-top: 12px;
+  font-size: clamp(3rem, 8vw, 4.5rem);
+  line-height: 1.05;
+}
+
+.hero-tagline {
+  margin-top: 16px;
+  font-size: clamp(1.125rem, 2.5vw, 1.5rem);
+  color: var(--text-secondary);
+}
+
+.hero-desc {
+  margin-top: 20px;
+  max-width: 32rem;
+  font-size: 16.5px;
+  line-height: 1.82;
+  color: var(--text-secondary);
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 32px;
+}
+
+.hero-visual {
+  display: flex;
+  justify-content: center;
+}
+
+.app-icon-frame {
+  padding: 20px;
+  border-radius: 32px;
+  background: var(--icon-frame-bg);
+  border: 1px solid var(--accent-border);
+  box-shadow: var(--icon-shadow);
+}
+
+.app-icon-hero {
+  width: min(280px, 72vw);
+  height: auto;
+  border-radius: 24px;
+}
+
+/* ---------- Team ---------- */
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+  margin-top: 40px;
+}
+
+.team-card {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 22px;
+  color: inherit;
+}
+
+.team-card:hover {
+  color: inherit;
+  box-shadow: 0 8px 28px var(--hero-glow);
+}
+
+.team-avatar {
+  width: 88px;
+  height: 88px;
+  border-radius: 9999px;
+  border: 2px solid var(--accent-border);
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.team-info h3 {
+  font-size: 18px;
+}
+
+.team-role {
+  margin-top: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--accent);
+}
+
+.team-handle {
+  margin-top: 2px;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+/* ---------- Feature icon box ---------- */
+.feature-icon {
+  display: flex;
+  height: 44px;
+  width: 44px;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-md);
+  background: var(--accent-soft);
+  border: 1px solid var(--accent-border);
+  color: var(--accent);
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.001ms !important;
@@ -294,5 +539,8 @@ h1, h2, h3, h4 {
     transition-duration: 0.001ms !important;
     scroll-behavior: auto !important;
   }
-  .reveal { opacity: 1; transform: none; }
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
 }

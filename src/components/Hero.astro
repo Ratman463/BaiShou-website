@@ -1,76 +1,43 @@
 ---
-/**
- * Hero 区域
- * - 全屏高度，银河背景最显眼
- * - 居中：大标题、副标题、Latte Banner、台词、两个按钮
- */
-const REPO_URL = 'https://github.com/foxletters-hq/BaiShou-Next';
-const LATTE_BANNER = '/Latte/assets/images/Latte-Banner-01.png';
+import { REPO_URL } from '../data/site';
 ---
 
-<section
-  id="hero"
-  class="relative flex min-h-screen flex-col items-center justify-center px-6 py-20 text-center"
->
-  <!-- 装饰性微星（CSS keyframes 闪烁，不引入动画库） -->
-  <div class="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
-    <span class="star" style="top: 18%; left: 12%; animation-delay: 0s;"></span>
-    <span class="star" style="top: 28%; left: 82%; animation-delay: 0.8s;"></span>
-    <span class="star" style="top: 62%; left: 8%; animation-delay: 1.6s;"></span>
-    <span class="star" style="top: 74%; left: 90%; animation-delay: 2.2s;"></span>
-    <span class="star" style="top: 40%; left: 50%; animation-delay: 1.2s;"></span>
-    <span class="star" style="top: 85%; left: 38%; animation-delay: 2.8s;"></span>
-  </div>
-
-  <div class="relative z-10 flex max-w-3xl flex-col items-center">
-    <!-- 大标题 -->
-    <h1
-      class="animate-in text-4xl font-bold leading-tight text-white sm:text-5xl md:text-6xl"
-    >
-      白守 · BaiShou-Next
-    </h1>
-
-    <!-- 副标题 -->
-    <p
-      class="animate-in animate-in-delay-1 mt-5 text-lg text-[#a0a8b8] sm:text-xl md:text-2xl"
-    >
-      以纯白誓约，守护彼此一生
-    </p>
-
-    <!-- Latte Banner -->
-    <div class="animate-in animate-in-delay-2 mt-10 w-full max-w-2xl">
-      <img
-        src={LATTE_BANNER}
-        alt="Latte 看板娘 Banner"
-        class="latte-banner mx-auto w-full"
-        loading="eager"
-        width="1024"
-        height="512"
-      />
+<section id="hero" class="hero section">
+  <div class="container hero-grid">
+    <div class="hero-copy">
+      <p class="hero-eyebrow animate-in">BaiShou-Next</p>
+      <h1 class="hero-title animate-in animate-in-delay-1">白守</h1>
+      <p class="hero-tagline animate-in animate-in-delay-2">以纯白誓约，守护彼此一生</p>
+      <p class="hero-desc animate-in animate-in-delay-3">
+        白守是为对抗遗忘而构建的灵魂容器——在本地守护你的记忆，与 AI 伙伴共同书写、共同成长。
+        数据留在你的设备上，记忆只属于你。
+      </p>
+      <div class="hero-actions animate-in animate-in-delay-4">
+        <a
+          href={REPO_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn btn-primary"
+        >
+          前往 GitHub
+        </a>
+        <a href="#features" class="btn btn-outline">
+          了解功能
+        </a>
+      </div>
     </div>
 
-    <!-- Latte 台词 -->
-    <p
-      class="animate-in animate-in-delay-3 mt-6 text-base italic text-[#9AD4EA] sm:text-lg"
-    >
-      「时光流逝，记忆消散。而我，已在此守候了很久很久。」
-    </p>
-
-    <!-- 按钮 -->
-    <div
-      class="animate-in animate-in-delay-4 mt-10 flex flex-col gap-3 sm:flex-row"
-    >
-      <a href="#about" class="btn btn-primary">
-        了解白守
-      </a>
-      <a
-        href={REPO_URL}
-        target="_blank"
-        rel="noopener noreferrer"
-        class="btn btn-outline"
-      >
-        GitHub
-      </a>
+    <div class="hero-visual animate-in animate-in-delay-2">
+      <div class="app-icon-frame" aria-hidden="true">
+        <img
+          src="/assets/images/app-icon.png"
+          alt="白守应用图标"
+          class="app-icon-hero"
+          width="320"
+          height="320"
+          loading="eager"
+        />
+      </div>
     </div>
   </div>
 </section>

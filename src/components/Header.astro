@@ -1,0 +1,25 @@
+---
+import ThemeToggle from './ThemeToggle.astro';
+
+const nav = [
+  { href: '#features', label: '功能' },
+  { href: '#team', label: '团队' },
+];
+---
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="#hero" class="brand">
+      <img src="/assets/images/app-icon.png" alt="" width="36" height="36" class="brand-icon" />
+      <span>白守</span>
+    </a>
+
+    <nav class="header-nav" aria-label="页面导航">
+      {nav.map((item) => (
+        <a href={item.href}>{item.label}</a>
+      ))}
+    </nav>
+
+    <ThemeToggle />
+  </div>
+</header>
