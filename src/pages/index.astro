@@ -1,19 +1,21 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Hero from '../components/Hero.astro';
+import Problem from '../components/Problem.astro';
 import Features from '../components/Features.astro';
-import Team from '../components/Team.astro';
-import Footer from '../components/Footer.astro';
+import Vision from '../components/Vision.astro';
+import Principles from '../components/Principles.astro';
+import People from '../components/People.astro';
+import zhCN from '../i18n/locales/zh-CN';
 ---
 
-<Layout
-  title="白守 · BaiShou-Next"
-  description="以纯白誓约，守护彼此一生。BaiShou-Next 是为对抗遗忘而构建的灵魂容器——一个拥有 AI 伙伴、RAG 语义记忆与本地私有数据的智能日记应用。"
->
-  <main>
+<Layout title={zhCN.meta.title} description={zhCN.meta.description}>
+  <main class="snap-root">
     <Hero />
+    <Problem />
     <Features />
-    <Team />
+    <Vision />
+    <Principles />
+    <People />
   </main>
-  <Footer />
 </Layout>

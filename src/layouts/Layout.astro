@@ -1,9 +1,14 @@
 ---
 /**
- * BaiShou-Next 产品官网布局
+ * BaiShou 产品官网布局
  */
 import '../styles/global.css';
 import Header from '../components/Header.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import CommunityModal from '../components/CommunityModal.astro';
+import ThemeScene from '../components/ThemeScene.astro';
+import zhCN from '../i18n/locales/zh-CN';
+import { getInitialLocaleScript } from '../scripts/i18n';
 
 export interface Props {
   title?: string;
@@ -11,8 +16,8 @@ export interface Props {
 }
 
 const {
-  title = '白守 · BaiShou-Next',
-  description = '以纯白誓约，守护彼此一生。BaiShou-Next 是为对抗遗忘而构建的灵魂容器——一个拥有 AI 伙伴、RAG 语义记忆与本地私有数据的智能日记应用。',
+  title = zhCN.meta.title,
+  description = zhCN.meta.description,
 } = Astro.props;
 ---
 
@@ -20,7 +25,7 @@ const {
 <html lang="zh-CN">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta name="generator" content={Astro.generator} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
@@ -34,6 +39,7 @@ const {
     <meta property="og:image" content="/assets/images/app-icon.png" />
     <meta property="og:locale" content="zh_CN" />
 
+    <script is:inline set:html={getInitialLocaleScript()} />
     <script is:inline>
       (function () {
         var key = 'baishou-theme';
@@ -56,12 +62,18 @@ const {
     />
   </head>
   <body>
+    <ThemeScene />
     <div class="bg-overlay" aria-hidden="true"></div>
 
     <Header />
     <slot />
+    <SiteFooter />
+    <CommunityModal />
 
     <script>
+      import { initLenisScroll } from '../scripts/lenisScroll';
+      import { initI18n } from '../scripts/i18n';
+
       const initReveal = () => {
         const els = document.querySelectorAll<HTMLElement>('.reveal');
         if (els.length === 0) return;
@@ -80,13 +92,36 @@ const {
               }
             });
           },
-          { threshold: 0.12, rootMargin: '0px 0px -40px 0px' }
+          { threshold: 0.15, rootMargin: '0px' }
         );
 
         els.forEach((el) => observer.observe(el));
       };
 
-      document.addEventListener('DOMContentLoaded', initReveal);
+      const initSnapNav = () => {
+        const dots = document.querySelectorAll<HTMLElement>('[data-snap-dot]');
+        const links = document.querySelectorAll<HTMLElement>('[data-nav-link]');
+
+        const setActive = (id: string) => {
+          dots.forEach((dot) => {
+            dot.classList.toggle('is-active', dot.dataset.snapDot === id);
+          });
+          links.forEach((link) => {
+            link.classList.toggle('is-active', link.dataset.navLink === id);
+          });
+        };
+
+        return setActive;
+      };
+
+      const init = () => {
+        initI18n();
+        initReveal();
+        const setActive = initSnapNav();
+        initLenisScroll(setActive);
+      };
+
+      document.addEventListener('DOMContentLoaded', init);
     </script>
   </body>
 </html>

@@ -1,0 +1,111 @@
+---
+/** 主题背景：浅色极光 / 深色雨滴（白守组件库） */
+---
+
+<div class="theme-scene" data-theme-scene aria-hidden="true">
+  <canvas class="theme-canvas theme-canvas--aurora" data-aurora-canvas hidden></canvas>
+  <canvas class="theme-canvas theme-canvas--rain" data-rain-canvas hidden></canvas>
+</div>
+
+<script>
+  import { initBaishouAurora, type BaishouAuroraController } from '../scripts/baishouAurora';
+  import { initBaishouRaindrop, type BaishouRaindropController } from '../scripts/baishouRaindrop';
+  import { initRainEffect, type RainEffectController } from '../scripts/rainEffect';
+
+  let aurora: BaishouAuroraController | null = null;
+  let raindrop: BaishouRaindropController | null = null;
+  let rainFallback: RainEffectController | null = null;
+
+  const isDarkTheme = () => document.documentElement.dataset.theme === 'dark';
+  const isLightTheme = () => document.documentElement.dataset.theme === 'light';
+
+  const prefersReducedMotion = () =>
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const getScene = () => document.querySelector<HTMLElement>('[data-theme-scene]');
+  const getAuroraCanvas = () => document.querySelector<HTMLCanvasElement>('[data-aurora-canvas]');
+  const getRainCanvas = () => document.querySelector<HTMLCanvasElement>('[data-rain-canvas]');
+
+  const stopAll = () => {
+    aurora?.stop();
+    raindrop?.stop();
+    rainFallback?.stop();
+  };
+
+  const setCanvasVisible = (canvas: HTMLCanvasElement | null, visible: boolean) => {
+    if (!canvas) return;
+    canvas.hidden = !visible;
+  };
+
+  const syncScene = () => {
+    const scene = getScene();
+    const auroraCanvas = getAuroraCanvas();
+    const rainCanvas = getRainCanvas();
+    if (!scene || !auroraCanvas || !rainCanvas) return;
+
+    if (prefersReducedMotion()) {
+      stopAll();
+      setCanvasVisible(auroraCanvas, false);
+      setCanvasVisible(rainCanvas, false);
+      scene.setAttribute('aria-hidden', 'true');
+      return;
+    }
+
+    if (isLightTheme()) {
+      stopAll();
+      setCanvasVisible(rainCanvas, false);
+      setCanvasVisible(auroraCanvas, true);
+      scene.setAttribute('aria-hidden', 'false');
+
+      if (!aurora) {
+        aurora = initBaishouAurora(auroraCanvas);
+      }
+      aurora?.start();
+      return;
+    }
+
+    if (isDarkTheme()) {
+      aurora?.stop();
+      setCanvasVisible(auroraCanvas, false);
+      setCanvasVisible(rainCanvas, true);
+      scene.setAttribute('aria-hidden', 'false');
+
+      if (!raindrop) {
+        raindrop = initBaishouRaindrop(rainCanvas);
+      }
+
+      if (raindrop) {
+        rainFallback?.stop();
+        raindrop.start();
+        return;
+      }
+
+      if (!rainFallback) {
+        rainFallback = initRainEffect(rainCanvas);
+      }
+      rainFallback?.start();
+      return;
+    }
+
+    stopAll();
+    setCanvasVisible(auroraCanvas, false);
+    setCanvasVisible(rainCanvas, false);
+    scene.setAttribute('aria-hidden', 'true');
+  };
+
+  const initThemeScene = () => {
+    syncScene();
+
+    document.querySelectorAll<HTMLButtonElement>('[data-theme-toggle]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        window.requestAnimationFrame(syncScene);
+      });
+    });
+
+    const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    motionQuery.addEventListener('change', syncScene);
+  };
+
+  initThemeScene();
+  document.addEventListener('astro:page-load', initThemeScene);
+</script>
