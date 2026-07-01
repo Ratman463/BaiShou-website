@@ -16,16 +16,23 @@ import { FOUNDER, COLLABORATORS, CONTRIBUTORS_URL } from '../data/site';
         rel="noopener noreferrer"
         class="card team-card team-card-founder"
       >
-        <img
-          src={FOUNDER.avatar}
-          alt=""
-          class="team-avatar"
-          data-i18n-prefix="a11y.avatar"
-          data-i18n-name={FOUNDER.name}
-          width="88"
-          height="88"
-          loading="lazy"
-        />
+        <div class="team-avatar-wrap team-avatar-wrap-founder">
+          <img
+            src={FOUNDER.avatar}
+            alt=""
+            class="team-avatar"
+            data-i18n-prefix="a11y.avatar"
+            data-i18n-name={FOUNDER.name}
+            width="88"
+            height="88"
+            loading="lazy"
+          />
+          {FOUNDER.badge && (
+            <span class="team-avatar-badge" aria-hidden="true">
+              {FOUNDER.badge}
+            </span>
+          )}
+        </div>
         <div class="team-info">
           <h3>{FOUNDER.name}</h3>
           <p class="team-role" data-i18n="people.founderRole">创始人</p>
@@ -57,16 +64,23 @@ import { FOUNDER, COLLABORATORS, CONTRIBUTORS_URL } from '../data/site';
             rel="noopener noreferrer"
             class="card team-card"
           >
-            <img
-              src={person.avatar}
-              alt=""
-              class="team-avatar"
-              data-i18n-prefix="a11y.avatar"
-              data-i18n-name={person.name}
-              width="80"
-              height="80"
-              loading="lazy"
-            />
+            <div class="team-avatar-wrap">
+              <img
+                src={person.avatar}
+                alt=""
+                class="team-avatar"
+                data-i18n-prefix="a11y.avatar"
+                data-i18n-name={person.name}
+                width="80"
+                height="80"
+                loading="lazy"
+              />
+              {person.badge && (
+                <span class="team-avatar-badge" aria-hidden="true">
+                  {person.badge}
+                </span>
+              )}
+            </div>
             <div class="team-info">
               <h3>{person.name}</h3>
               <p class="team-bio" data-i18n={`people.collaborators.${person.id}.bio`}>
