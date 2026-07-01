@@ -35,6 +35,9 @@ jobs:
         run: npm ci
 
       - name: Build with Astro
+        env:
+          PUBLIC_UMAMI_URL: ${{ vars.PUBLIC_UMAMI_URL }}
+          PUBLIC_UMAMI_WEBSITE_ID: ${{ secrets.PUBLIC_UMAMI_WEBSITE_ID }}
         run: npm run build
 
       - name: Upload artifact
