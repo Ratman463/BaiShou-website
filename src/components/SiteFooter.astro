@@ -1,6 +1,7 @@
 ---
 import BilibiliIcon from './BilibiliIcon.astro';
-import { BILIBILI_URL, COMMUNITY_ICON } from '../data/site';
+import QqIcon from './QqIcon.astro';
+import { BILIBILI_URL } from '../data/site';
 ---
 
 <footer class="site-footer">
@@ -13,7 +14,7 @@ import { BILIBILI_URL, COMMUNITY_ICON } from '../data/site';
         class="btn btn-outline footer-cta"
         data-community-open
       >
-        <img class="btn-icon" src={COMMUNITY_ICON} alt="" width="18" height="18" aria-hidden="true" />
+        <QqIcon size={18} />
         <span data-i18n="footer.joinCommunity">加入社群</span>
       </button>
 

@@ -1424,6 +1424,11 @@ h1, h2, h3, h4 {
   flex-shrink: 0;
 }
 
+.qq-icon {
+  flex-shrink: 0;
+  display: block;
+}
+
 .footer-cta {
   height: 36px;
   padding: 0 18px;

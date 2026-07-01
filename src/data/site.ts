@@ -2,7 +2,6 @@ export const REPO_URL = 'https://github.com/foxletters-hq/BaiShou-Next';
 export const CONTRIBUTORS_URL = 'https://github.com/foxletters-hq/BaiShou-Next/graphs/contributors';
 export const BILIBILI_URL = 'https://space.bilibili.com/18187585';
 export const GITHUB_ICON = '/assets/images/github-icon.png';
-export const COMMUNITY_ICON = '/assets/images/community-icon.png';
 
 export const DOWNLOAD_URLS = {
   windows:

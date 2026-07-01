@@ -1,6 +1,7 @@
 ---
 import BilibiliIcon from './BilibiliIcon.astro';
-import { BILIBILI_URL, COMMUNITY_ICON, GITHUB_ICON, REPO_URL } from '../data/site';
+import QqIcon from './QqIcon.astro';
+import { BILIBILI_URL, GITHUB_ICON, REPO_URL } from '../data/site';
 ---
 
 <section id="hero" class="snap-page hero">
@@ -23,7 +24,7 @@ import { BILIBILI_URL, COMMUNITY_ICON, GITHUB_ICON, REPO_URL } from '../data/sit
           class="btn btn-outline"
           data-community-open
         >
-          <img class="btn-icon" src={COMMUNITY_ICON} alt="" width="18" height="18" aria-hidden="true" />
+          <QqIcon size={18} />
           <span data-i18n="hero.ctaCommunity">加入社群</span>
         </button>
         <a
