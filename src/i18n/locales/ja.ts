@@ -29,7 +29,8 @@ const ja: Messages = {
     positioning: 'ローカル優先・AI ネイティブの個人ナレッジベースと長期記憶システム。',
     desc: 'AI コンパニオンユーザーの日記と長期記憶から始め、日記・AI コンパニオン・マルチデバイス同期をひとつの個人記憶空間に。ナレッジベース機能は開発中。コア機能はオープンで、データはあなたのデバイスに残ります。',
     ctaGithub: 'GitHub へ',
-    ctaVision: 'ナレッジベースについて',
+    ctaCommunity: 'コミュニティに参加',
+    ctaBilibili: 'bilibili',
     iconAlt: '白守アプリアイコン',
   },
   problem: {

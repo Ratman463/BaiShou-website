@@ -31,7 +31,8 @@ export interface Messages {
     positioning: string;
     desc: string;
     ctaGithub: string;
-    ctaVision: string;
+    ctaCommunity: string;
+    ctaBilibili: string;
     iconAlt: string;
   };
   problem: {

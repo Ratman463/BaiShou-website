@@ -29,7 +29,8 @@ const zhCN: Messages = {
     positioning: '本地优先、AI 原生的个人知识库和长期记忆系统。',
     desc: '先从 AI 伴侣用户的日记与长期记忆切入，把日记、AI 伙伴与多端同步放进同一个个人记忆空间。知识库能力正在开发中，核心能力保持开放，数据留在你的设备上。',
     ctaGithub: '前往 GitHub',
-    ctaVision: '了解知识库',
+    ctaCommunity: '加入社群',
+    ctaBilibili: '哔哩哔哩',
     iconAlt: '白守应用图标',
   },
   problem: {

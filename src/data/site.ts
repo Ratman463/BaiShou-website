@@ -1,6 +1,8 @@
 export const REPO_URL = 'https://github.com/foxletters-hq/BaiShou-Next';
 export const CONTRIBUTORS_URL = 'https://github.com/foxletters-hq/BaiShou-Next/graphs/contributors';
 export const BILIBILI_URL = 'https://space.bilibili.com/18187585';
+export const GITHUB_ICON = '/assets/images/github-icon.png';
+export const COMMUNITY_ICON = '/assets/images/community-icon.png';
 
 export const QQ_GROUPS = [
   {
@@ -19,6 +21,7 @@ export const FOUNDER = {
   name: 'Anson',
   github: 'https://github.com/Anson-Trio',
   avatar: 'https://avatars.githubusercontent.com/u/107763915?v=4',
+  badge: '🦊',
 };
 
 export const COLLABORATORS = [
@@ -27,12 +30,14 @@ export const COLLABORATORS = [
     name: 'Ratman',
     github: 'https://github.com/Ratman463',
     avatar: 'https://avatars.githubusercontent.com/u/187963490?v=4',
+    badge: '🧀',
   },
   {
     id: 'ctnilpp' as const,
     name: 'ctnilpp',
     github: 'https://github.com/ctnilpp',
     avatar: 'https://avatars.githubusercontent.com/u/49940531?v=4',
+    badge: '👑',
   },
 ];
 

@@ -29,7 +29,8 @@ const zhTW: Messages = {
     positioning: '本地優先、AI 原生的個人知識庫與長期記憶系統。',
     desc: '先從 AI 伴侶使用者的日記與長期記憶切入，把日記、AI 夥伴與多端同步放進同一個個人記憶空間。知識庫能力正在開發中，核心能力保持開放，資料留在你的裝置上。',
     ctaGithub: '前往 GitHub',
-    ctaVision: '了解知識庫',
+    ctaCommunity: '加入社群',
+    ctaBilibili: '哔哩哔哩',
     iconAlt: '白守應用程式圖示',
   },
   problem: {

@@ -29,7 +29,8 @@ const en: Messages = {
     positioning: 'A local-first, AI-native personal knowledge base and long-term memory system.',
     desc: 'We start with diaries and long-term memory for AI companion users—bringing diaries, AI companions, and multi-device sync into one personal memory space. Knowledge base features are in development; core capabilities stay open and data stays on your devices.',
     ctaGithub: 'View on GitHub',
-    ctaVision: 'About Knowledge Base',
+    ctaCommunity: 'Join Community',
+    ctaBilibili: 'Bilibili',
     iconAlt: 'BaiShou app icon',
   },
   problem: {
