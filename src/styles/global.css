@@ -333,7 +333,6 @@ h1, h2, h3, h4 {
 }
 
 .btn-bilibili:hover {
-  color: #00a1d6;
   border-color: #00a1d6;
 }
 
@@ -1411,6 +1410,14 @@ h1, h2, h3, h4 {
 .github-icon {
   flex-shrink: 0;
   display: block;
+}
+
+.bilibili-icon path {
+  fill: #fb7299;
+}
+
+.github-icon path {
+  fill: #181717;
 }
 
 .footer-cta {
