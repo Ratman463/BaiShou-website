@@ -337,20 +337,6 @@ h1, h2, h3, h4 {
   border-color: #00a1d6;
 }
 
-.btn-icon {
-  flex-shrink: 0;
-  display: block;
-  width: 18px;
-  height: 18px;
-  object-fit: contain;
-  image-rendering: pixelated;
-  image-rendering: crisp-edges;
-}
-
-[data-theme='dark'] .btn-outline .btn-icon-github {
-  filter: brightness(0) invert(1);
-}
-
 .section {
   padding-top: 96px;
   padding-bottom: 96px;
@@ -1420,11 +1406,9 @@ h1, h2, h3, h4 {
   flex-shrink: 0;
 }
 
-.bilibili-icon {
-  flex-shrink: 0;
-}
-
-.qq-icon {
+.bilibili-icon,
+.qq-icon,
+.github-icon {
   flex-shrink: 0;
   display: block;
 }
