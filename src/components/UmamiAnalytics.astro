@@ -1,11 +1,23 @@
 ---
-const umamiUrl = import.meta.env.PUBLIC_UMAMI_URL?.replace(/\/$/, '');
-const umamiWebsiteId = import.meta.env.PUBLIC_UMAMI_WEBSITE_ID;
-const enabled = Boolean(umamiUrl && umamiWebsiteId);
+const umamiWebsiteId = import.meta.env.PUBLIC_UMAMI_WEBSITE_ID?.trim();
+
+function resolveUmamiScriptSrc(): string | undefined {
+  const scriptUrl = import.meta.env.PUBLIC_UMAMI_SCRIPT_URL?.trim();
+  const baseUrl = import.meta.env.PUBLIC_UMAMI_URL?.trim();
+  const raw = scriptUrl || baseUrl;
+
+  if (!raw) return undefined;
+
+  const normalized = raw.replace(/\/$/, '');
+  return normalized.endsWith('/script.js') ? normalized : `${normalized}/script.js`;
+}
+
+const umamiScriptSrc = resolveUmamiScriptSrc();
+const enabled = Boolean(umamiScriptSrc && umamiWebsiteId);
 ---
 
 {
   enabled && (
-    <script defer src={`${umamiUrl}/script.js`} data-website-id={umamiWebsiteId} />
+    <script defer src={umamiScriptSrc} data-website-id={umamiWebsiteId} />
   )
 }
