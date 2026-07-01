@@ -9,4 +9,12 @@ export default defineConfig({
   base: '/',
   integrations: [react(), tailwind({ applyBaseStyles: false })],
   output: 'static',
+  server: {
+    host: true,
+    port: 4321,
+  },
+  preview: {
+    host: true,
+    port: 4321,
+  },
 });
