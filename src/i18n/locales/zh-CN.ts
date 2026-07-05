@@ -181,7 +181,7 @@ const zhCN: Messages = {
   download: {
     button: '下载',
     title: '下载白守',
-    lead: '选择你的平台，开始使用白守。',
+    lead: '选择你的平台，开始使用白守',
     windows: 'Windows 版',
     android: 'Android 版',
     closeAria: '关闭下载弹窗',
