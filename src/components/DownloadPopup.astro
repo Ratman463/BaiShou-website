@@ -3,7 +3,7 @@
  * 下载弹窗 — 液态玻璃风格
  * 点击「下载」按钮触发，提供 Windows / Android 两个下载链接
  */
-import { DOWNLOAD_URLS } from "../data/site";
+import { DOWNLOAD_URLS, RELEASE_CHANNEL_MANIFEST_URL } from "../data/site";
 ---
 
 <div class="dl-popup" data-dl-popup hidden aria-hidden="true">
@@ -48,7 +48,7 @@ import { DOWNLOAD_URLS } from "../data/site";
     </header>
 
     <div class="dl-popup-grid">
-      <a href={DOWNLOAD_URLS.windows} class="dl-popup-card">
+      <a href={DOWNLOAD_URLS.windows} class="dl-popup-card" data-dl-windows>
         <span class="dl-popup-icon">
           <!-- Windows logo -->
           <svg
@@ -69,7 +69,7 @@ import { DOWNLOAD_URLS } from "../data/site";
         >
       </a>
 
-      <a href={DOWNLOAD_URLS.android} class="dl-popup-card">
+      <a href={DOWNLOAD_URLS.android} class="dl-popup-card" data-dl-android>
         <span class="dl-popup-icon">
           <!-- Android robot -->
           <svg
@@ -93,16 +93,41 @@ import { DOWNLOAD_URLS } from "../data/site";
   </div>
 </div>
 
-<script>
+<script define:vars={{ RELEASE_CHANNEL_MANIFEST_URL }}>
   const OPEN_CLASS = "is-open";
   const PANEL_MS = 380;
 
   const getPopup = () => document.querySelector<HTMLElement>("[data-dl-popup]");
   const getPanel = () => document.querySelector<HTMLElement>(".dl-popup-panel");
 
+  const CHANNEL_URL = RELEASE_CHANNEL_MANIFEST_URL;
+
+  const hydrateDownloadLinks = async () => {
+    try {
+      const res = await fetch(CHANNEL_URL, { cache: "no-store" });
+      if (!res.ok) return;
+      const data = (await res.json()) as {
+        android?: { downloadUrl?: string };
+        windows?: { downloadUrl?: string };
+      };
+      const androidLink = document.querySelector<HTMLAnchorElement>("[data-dl-android]");
+      const windowsLink = document.querySelector<HTMLAnchorElement>("[data-dl-windows]");
+      if (data.android?.downloadUrl && androidLink) {
+        androidLink.href = data.android.downloadUrl;
+      }
+      if (data.windows?.downloadUrl && windowsLink) {
+        windowsLink.href = data.windows.downloadUrl;
+      }
+    } catch {
+      /* 保留 DOWNLOAD_URLS 兜底 */
+    }
+  };
+
   const openPopup = () => {
     const popup = getPopup();
     if (!popup || popup.classList.contains(OPEN_CLASS)) return;
+
+    void hydrateDownloadLinks();
 
     popup.removeAttribute("hidden");
     popup.setAttribute("aria-hidden", "false");
