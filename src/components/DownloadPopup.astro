@@ -97,8 +97,8 @@ import { DOWNLOAD_URLS, RELEASE_CHANNEL_MANIFEST_URL } from "../data/site";
   const OPEN_CLASS = "is-open";
   const PANEL_MS = 380;
 
-  const getPopup = () => document.querySelector<HTMLElement>("[data-dl-popup]");
-  const getPanel = () => document.querySelector<HTMLElement>(".dl-popup-panel");
+  const getPopup = () => document.querySelector("[data-dl-popup]");
+  const getPanel = () => document.querySelector(".dl-popup-panel");
 
   const CHANNEL_URL = RELEASE_CHANNEL_MANIFEST_URL;
 
@@ -106,12 +106,9 @@ import { DOWNLOAD_URLS, RELEASE_CHANNEL_MANIFEST_URL } from "../data/site";
     try {
       const res = await fetch(CHANNEL_URL, { cache: "no-store" });
       if (!res.ok) return;
-      const data = (await res.json()) as {
-        android?: { downloadUrl?: string };
-        windows?: { downloadUrl?: string };
-      };
-      const androidLink = document.querySelector<HTMLAnchorElement>("[data-dl-android]");
-      const windowsLink = document.querySelector<HTMLAnchorElement>("[data-dl-windows]");
+      const data = await res.json();
+      const androidLink = document.querySelector("[data-dl-android]");
+      const windowsLink = document.querySelector("[data-dl-windows]");
       if (data.android?.downloadUrl && androidLink) {
         androidLink.href = data.android.downloadUrl;
       }
@@ -136,7 +133,7 @@ import { DOWNLOAD_URLS, RELEASE_CHANNEL_MANIFEST_URL } from "../data/site";
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
         popup.classList.add(OPEN_CLASS);
-        popup.querySelector<HTMLElement>(".dl-popup-close")?.focus();
+        popup.querySelector(".dl-popup-close")?.focus();
       });
     });
   };
@@ -162,7 +159,7 @@ import { DOWNLOAD_URLS, RELEASE_CHANNEL_MANIFEST_URL } from "../data/site";
       return;
     }
 
-    const onEnd = (event: TransitionEvent) => {
+    const onEnd = (event) => {
       if (event.target !== panel || event.propertyName !== "transform") return;
       panel.removeEventListener("transitionend", onEnd);
       finishClose();
@@ -176,16 +173,14 @@ import { DOWNLOAD_URLS, RELEASE_CHANNEL_MANIFEST_URL } from "../data/site";
     const popup = getPopup();
     if (!popup) return;
 
-    document
-      .querySelectorAll<HTMLElement>("[data-dl-open]")
-      .forEach((trigger) => {
-        trigger.addEventListener("click", (event) => {
-          event.preventDefault();
-          openPopup();
-        });
+    document.querySelectorAll("[data-dl-open]").forEach((trigger) => {
+      trigger.addEventListener("click", (event) => {
+        event.preventDefault();
+        openPopup();
       });
+    });
 
-    popup.querySelectorAll<HTMLElement>("[data-dl-close]").forEach((el) => {
+    popup.querySelectorAll("[data-dl-close]").forEach((el) => {
       el.addEventListener("click", closePopup);
     });
 
