@@ -3,7 +3,33 @@
  * 下载弹窗 — 液态玻璃风格
  * 点击「下载」按钮触发，提供 Windows / Android 两个下载链接
  */
-import { DOWNLOAD_URLS, RELEASE_CHANNEL_MANIFEST_URL } from "../data/site";
+import {
+  DOWNLOAD_URLS,
+  RELEASE_CHANNEL_MANIFEST_URL,
+} from "../data/site";
+
+interface ChannelManifest {
+  android?: { downloadUrl?: string };
+  windows?: { downloadUrl?: string };
+}
+
+async function resolveDownloadUrls() {
+  try {
+    const res = await fetch(RELEASE_CHANNEL_MANIFEST_URL, {
+      cache: "no-store",
+    });
+    if (!res.ok) return DOWNLOAD_URLS;
+    const data = (await res.json()) as ChannelManifest;
+    return {
+      android: data.android?.downloadUrl ?? DOWNLOAD_URLS.android,
+      windows: data.windows?.downloadUrl ?? DOWNLOAD_URLS.windows,
+    };
+  } catch {
+    return DOWNLOAD_URLS;
+  }
+}
+
+const downloadUrls = await resolveDownloadUrls();
 ---
 
 <div class="dl-popup" data-dl-popup hidden aria-hidden="true">
@@ -48,9 +74,13 @@ import { DOWNLOAD_URLS, RELEASE_CHANNEL_MANIFEST_URL } from "../data/site";
     </header>
 
     <div class="dl-popup-grid">
-      <a href={DOWNLOAD_URLS.windows} class="dl-popup-card" data-dl-windows>
+      <a
+        href={downloadUrls.windows}
+        class="dl-popup-card"
+        data-dl-windows
+        download={downloadUrls.windows.includes("/releases/download/") ? "BaiShou-Windows-Setup.exe" : undefined}
+      >
         <span class="dl-popup-icon">
-          <!-- Windows logo -->
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="28"
@@ -69,9 +99,13 @@ import { DOWNLOAD_URLS, RELEASE_CHANNEL_MANIFEST_URL } from "../data/site";
         >
       </a>
 
-      <a href={DOWNLOAD_URLS.android} class="dl-popup-card" data-dl-android>
+      <a
+        href={downloadUrls.android}
+        class="dl-popup-card"
+        data-dl-android
+        download={downloadUrls.android.includes("/releases/download/") ? "BaiShou-Android.apk" : undefined}
+      >
         <span class="dl-popup-icon">
-          <!-- Android robot -->
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="28"
@@ -100,31 +134,29 @@ import { DOWNLOAD_URLS, RELEASE_CHANNEL_MANIFEST_URL } from "../data/site";
   const getPopup = () => document.querySelector("[data-dl-popup]");
   const getPanel = () => document.querySelector(".dl-popup-panel");
 
-  const CHANNEL_URL = RELEASE_CHANNEL_MANIFEST_URL;
-
   const hydrateDownloadLinks = async () => {
     try {
-      const res = await fetch(CHANNEL_URL, { cache: "no-store" });
+      const res = await fetch(RELEASE_CHANNEL_MANIFEST_URL, { cache: "no-store" });
       if (!res.ok) return;
       const data = await res.json();
       const androidLink = document.querySelector("[data-dl-android]");
       const windowsLink = document.querySelector("[data-dl-windows]");
       if (data.android?.downloadUrl && androidLink) {
         androidLink.href = data.android.downloadUrl;
+        androidLink.setAttribute("download", "BaiShou-Android.apk");
       }
       if (data.windows?.downloadUrl && windowsLink) {
         windowsLink.href = data.windows.downloadUrl;
+        windowsLink.setAttribute("download", "BaiShou-Windows-Setup.exe");
       }
     } catch {
-      /* 保留 DOWNLOAD_URLS 兜底 */
+      /* 构建期已写入直链，客户端刷新失败可忽略 */
     }
   };
 
   const openPopup = () => {
     const popup = getPopup();
     if (!popup || popup.classList.contains(OPEN_CLASS)) return;
-
-    void hydrateDownloadLinks();
 
     popup.removeAttribute("hidden");
     popup.setAttribute("aria-hidden", "false");
@@ -172,6 +204,8 @@ import { DOWNLOAD_URLS, RELEASE_CHANNEL_MANIFEST_URL } from "../data/site";
   const initDownloadPopup = () => {
     const popup = getPopup();
     if (!popup) return;
+
+    void hydrateDownloadLinks();
 
     document.querySelectorAll("[data-dl-open]").forEach((trigger) => {
       trigger.addEventListener("click", (event) => {

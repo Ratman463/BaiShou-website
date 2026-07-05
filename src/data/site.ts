@@ -2,9 +2,9 @@ export const REPO_URL = 'https://github.com/foxletters-hq/BaiShou-Next';
 export const CONTRIBUTORS_URL = 'https://github.com/foxletters-hq/BaiShou-Next/graphs/contributors';
 export const BILIBILI_URL = 'https://space.bilibili.com/18187585';
 
-/** CI 发版后更新的各端最新下载清单 */
+/** CI 发版后更新的各端最新下载清单（须用 raw.githubusercontent.com，github.com/raw 无 CORS） */
 export const RELEASE_CHANNEL_MANIFEST_URL =
-  `${REPO_URL}/raw/main/releases/channel.json`;
+  'https://raw.githubusercontent.com/foxletters-hq/BaiShou-Next/main/releases/channel.json';
 
 /** 拉取 channel.json 失败时的兜底：跳转到 Releases 列表 */
 export const DOWNLOAD_URLS = {
