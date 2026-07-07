@@ -4,32 +4,14 @@
  * 点击「下载」按钮触发，提供 Windows / Android 两个下载链接
  */
 import {
-  DOWNLOAD_URLS,
+  formatReleaseVersion,
   RELEASE_CHANNEL_MANIFEST_URL,
+  resolveReleaseDownloads,
 } from "../data/site";
 
-interface ChannelManifest {
-  android?: { downloadUrl?: string };
-  windows?: { downloadUrl?: string };
-}
-
-async function resolveDownloadUrls() {
-  try {
-    const res = await fetch(RELEASE_CHANNEL_MANIFEST_URL, {
-      cache: "no-store",
-    });
-    if (!res.ok) return DOWNLOAD_URLS;
-    const data = (await res.json()) as ChannelManifest;
-    return {
-      android: data.android?.downloadUrl ?? DOWNLOAD_URLS.android,
-      windows: data.windows?.downloadUrl ?? DOWNLOAD_URLS.windows,
-    };
-  } catch {
-    return DOWNLOAD_URLS;
-  }
-}
-
-const downloadUrls = await resolveDownloadUrls();
+const downloads = await resolveReleaseDownloads();
+const windowsVersion = formatReleaseVersion(downloads.windows.version);
+const androidVersion = formatReleaseVersion(downloads.android.version);
 ---
 
 <div class="dl-popup" data-dl-popup hidden aria-hidden="true">
@@ -75,10 +57,10 @@ const downloadUrls = await resolveDownloadUrls();
 
     <div class="dl-popup-grid">
       <a
-        href={downloadUrls.windows}
+        href={downloads.windows.url}
         class="dl-popup-card"
         data-dl-windows
-        download={downloadUrls.windows.includes("/releases/download/") ? "BaiShou-Windows-Setup.exe" : undefined}
+        download={downloads.windows.url.includes("/releases/download/") ? "BaiShou-Windows-Setup.exe" : undefined}
       >
         <span class="dl-popup-icon">
           <svg
@@ -97,13 +79,18 @@ const downloadUrls = await resolveDownloadUrls();
         <span class="dl-popup-label" data-i18n="download.windows"
           >Windows 版</span
         >
+        <span
+          class="dl-popup-size"
+          data-dl-windows-version
+          hidden={!windowsVersion}
+        >{windowsVersion}</span>
       </a>
 
       <a
-        href={downloadUrls.android}
+        href={downloads.android.url}
         class="dl-popup-card"
         data-dl-android
-        download={downloadUrls.android.includes("/releases/download/") ? "BaiShou-Android.apk" : undefined}
+        download={downloads.android.url.includes("/releases/download/") ? "BaiShou-Android.apk" : undefined}
       >
         <span class="dl-popup-icon">
           <svg
@@ -122,6 +109,11 @@ const downloadUrls = await resolveDownloadUrls();
         <span class="dl-popup-label" data-i18n="download.android"
           >Android 版</span
         >
+        <span
+          class="dl-popup-size"
+          data-dl-android-version
+          hidden={!androidVersion}
+        >{androidVersion}</span>
       </a>
     </div>
   </div>
@@ -133,6 +125,23 @@ const downloadUrls = await resolveDownloadUrls();
 
   const getPopup = () => document.querySelector("[data-dl-popup]");
   const getPanel = () => document.querySelector(".dl-popup-panel");
+
+  const formatReleaseVersion = (version) => {
+    if (!version) return "";
+    return version.startsWith("v") ? version : `v${version}`;
+  };
+
+  const applyPlatformVersion = (el, version) => {
+    if (!el) return;
+    const label = formatReleaseVersion(version);
+    if (label) {
+      el.textContent = label;
+      el.removeAttribute("hidden");
+    } else {
+      el.textContent = "";
+      el.setAttribute("hidden", "");
+    }
+  };
 
   const hydrateDownloadLinks = async () => {
     try {
@@ -149,6 +158,14 @@ const downloadUrls = await resolveDownloadUrls();
         windowsLink.href = data.windows.downloadUrl;
         windowsLink.setAttribute("download", "BaiShou-Windows-Setup.exe");
       }
+      applyPlatformVersion(
+        document.querySelector("[data-dl-android-version]"),
+        data.android?.version,
+      );
+      applyPlatformVersion(
+        document.querySelector("[data-dl-windows-version]"),
+        data.windows?.version,
+      );
     } catch {
       /* 构建期已写入直链，客户端刷新失败可忽略 */
     }
@@ -157,6 +174,8 @@ const downloadUrls = await resolveDownloadUrls();
   const openPopup = () => {
     const popup = getPopup();
     if (!popup || popup.classList.contains(OPEN_CLASS)) return;
+
+    void hydrateDownloadLinks();
 
     popup.removeAttribute("hidden");
     popup.setAttribute("aria-hidden", "false");

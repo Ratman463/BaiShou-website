@@ -12,6 +12,61 @@ export const DOWNLOAD_URLS = {
   android: `${REPO_URL}/releases`,
 } as const;
 
+export interface ReleaseChannelPlatform {
+  version?: string;
+  downloadUrl?: string;
+}
+
+export interface ReleaseChannelManifest {
+  android?: ReleaseChannelPlatform;
+  windows?: ReleaseChannelPlatform;
+}
+
+export interface ResolvedDownloadEntry {
+  url: string;
+  version?: string;
+}
+
+export interface ResolvedDownloads {
+  android: ResolvedDownloadEntry;
+  windows: ResolvedDownloadEntry;
+}
+
+export function formatReleaseVersion(version?: string): string | undefined {
+  if (!version) return undefined;
+  return version.startsWith('v') ? version : `v${version}`;
+}
+
+export async function resolveReleaseDownloads(
+  manifestUrl: string = RELEASE_CHANNEL_MANIFEST_URL,
+): Promise<ResolvedDownloads> {
+  try {
+    const res = await fetch(manifestUrl, { cache: 'no-store' });
+    if (!res.ok) {
+      return {
+        android: { url: DOWNLOAD_URLS.android },
+        windows: { url: DOWNLOAD_URLS.windows },
+      };
+    }
+    const data = (await res.json()) as ReleaseChannelManifest;
+    return {
+      android: {
+        url: data.android?.downloadUrl ?? DOWNLOAD_URLS.android,
+        version: data.android?.version,
+      },
+      windows: {
+        url: data.windows?.downloadUrl ?? DOWNLOAD_URLS.windows,
+        version: data.windows?.version,
+      },
+    };
+  } catch {
+    return {
+      android: { url: DOWNLOAD_URLS.android },
+      windows: { url: DOWNLOAD_URLS.windows },
+    };
+  }
+}
+
 export const QQ_GROUPS = [
   {
     id: 'group1' as const,
